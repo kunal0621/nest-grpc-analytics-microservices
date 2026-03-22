@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package account.v1;
+
+service AccountService {
+  rpc Ping (PingRequest) returns (PingResponse) {}
+}
+
+message PingRequest {}
+
+message PingResponse {
+  string message = 1;
+}

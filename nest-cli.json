@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/temp-app/src",
+  "compilerOptions": {
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/temp-app/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/temp-app",
+  "projects": {
+    "accounts": {
+      "type": "application",
+      "root": "apps/accounts",
+      "entryFile": "main",
+      "sourceRoot": "apps/accounts/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/accounts/tsconfig.app.json"
+      }
+    },
+    "customers": {
+      "type": "application",
+      "root": "apps/customers",
+      "entryFile": "main",
+      "sourceRoot": "apps/customers/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/customers/tsconfig.app.json"
+      }
+    },
+    "temp-app": {
+      "type": "application",
+      "root": "apps/temp-app",
+      "entryFile": "main",
+      "sourceRoot": "apps/temp-app/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/temp-app/tsconfig.app.json"
+      }
+    },
+    "transactions": {
+      "type": "application",
+      "root": "apps/transactions",
+      "entryFile": "main",
+      "sourceRoot": "apps/transactions/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/transactions/tsconfig.app.json"
+      }
+    }
+  }
+}
