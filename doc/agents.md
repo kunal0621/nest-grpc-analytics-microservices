@@ -39,3 +39,13 @@
 - **Unit Tests:** Write robust unit tests for all business logic inside services.
 - **Integration Tests:** Test the MongoDB queries in a separate environment or using memory databases.
 - **E2E Tests:** Write E2E tests for the API Gateway HTTP endpoints, using mocked gRPC clients.
+
+## 7. API Documentation (Swagger)
+- **Framework integration:** Use `@nestjs/swagger` in the API Gateway (`analytics-gateway`) to generate and host OpenAPI (Swagger) documentation.
+- **Decorators:** Ensure all gateway controllers and DTOs use Swagger decorators (e.g., `@ApiTags()`, `@ApiOperation()`, `@ApiResponse()`, `@ApiProperty()`) for accurate and comprehensive API description.
+- **Access:** Expose the documentation endpoint (e.g., `/api-docs`) only in non-production environments unless required.
+
+## 8. Configuration & Environment Variables (.env)
+- **.env File:** Store secrets, ports, database credentials, and other environment-specific variables in a `.env` file at the root.
+- **Security:** Never commit the `.env` file to version control. Ensure it is listed in `.gitignore`. Provide a `.env.example` file with dummy values for developer reference.
+- **ConfigModule:** Use `@nestjs/config` globally across all microservices and the gateway to load, validate, and access environment variables securely.

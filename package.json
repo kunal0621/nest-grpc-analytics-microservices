@@ -1,7 +1,7 @@
 {
-  "name": "temp-app",
+  "name": "nest-grpc-analytics-microservices",
   "version": "0.0.1",
-  "description": "",
+  "description": "NestJS Analytics Platform with gRPC Microservices",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
@@ -9,15 +9,19 @@
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
+    "start:gateway": "nest start analytics-gateway --watch",
+    "start:accounts": "nest start accounts --watch",
+    "start:customers": "nest start customers --watch",
+    "start:transactions": "nest start transactions --watch",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/apps/temp-app/main",
+    "start:prod": "node dist/apps/analytics-gateway/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/temp-app/test/jest-e2e.json"
+    "test:e2e": "jest --config ./apps/analytics-gateway/test/jest-e2e.json"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.14.3",
