@@ -1,12 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
+import { GrpcMethod } from '@nestjs/microservices';
 import { TransactionsService } from './transactions.service';
 
 @Controller()
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
-  @Get()
-  getHello(): string {
-    return this.transactionsService.getHello();
+  @GrpcMethod('TransactionService', 'Ping')
+  ping(): { message: string } {
+    return this.transactionsService.ping();
   }
 }
