@@ -1,12 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService, PingResponse } from './app.service';
+import { HealthService } from '../health.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
+import { PingResponse } from '../constants/grpc-client.constants';
 
 @ApiTags('Health')
-@Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+@Controller('health')
+export class HealthController {
+  constructor(private readonly appService: HealthService) {}
 
   @Get('accounts/ping')
   @ApiOperation({ summary: 'Ping the Accounts microservice via gRPC' })

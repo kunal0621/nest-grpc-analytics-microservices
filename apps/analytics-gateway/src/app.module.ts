@@ -1,13 +1,19 @@
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { HealthController } from './health/controllers/health.controller';
+import { HealthService } from './health/health.service';
+import { AccountController } from './accounts/controllers/account.controller';
+import { CustomerController } from './customers/controllers/customer.controller';
+import { TransactionController } from './transactions/controllers/transaction.controller';
+import { AccountService } from './accounts/account.service';
+import { CustomerService } from './customers/customer.service';
+import { TransactionService } from './transactions/transaction.service';
 import {
   ACCOUNTS_SERVICE,
   CUSTOMERS_SERVICE,
   TRANSACTIONS_SERVICE,
-} from './grpc-client.constants';
+} from './health/constants/grpc-client.constants';
 
 @Module({
   imports: [
@@ -41,7 +47,17 @@ import {
       },
     ]),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [
+    HealthController,
+    AccountController,
+    CustomerController,
+    TransactionController,
+  ],
+  providers: [
+    HealthService,
+    AccountService,
+    CustomerService,
+    TransactionService,
+  ],
 })
 export class AppModule {}
