@@ -4,10 +4,25 @@ package account.v1;
 
 service AccountService {
   rpc Ping (PingRequest) returns (PingResponse) {}
+  rpc GetAccounts (GetAccountsRequest) returns (GetAccountsResponse) {}
 }
 
 message PingRequest {}
 
 message PingResponse {
   string message = 1;
+}
+
+message GetAccountsRequest {
+  int32 limit = 1;
+}
+
+message Account {
+  int32 account_id = 1;
+  int32 limit      = 2;
+  repeated string products = 3;
+}
+
+message GetAccountsResponse {
+  repeated Account accounts = 1;
 }

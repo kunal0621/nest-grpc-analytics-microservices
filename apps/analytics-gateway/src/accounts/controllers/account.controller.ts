@@ -1,8 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  ParseIntPipe,
+  DefaultValuePipe,
+} from '@nestjs/common';
 import { AccountService } from '../account.service';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 import { PingResponse } from '../../health/constants/grpc-client.constants';
+import { GetAccountsResponse } from '../constants/grpc-client.constants';
 
 @ApiTags('Accounts')
 @Controller()
@@ -14,5 +21,24 @@ export class AccountController {
   @ApiResponse({ status: 200, description: 'Accounts service is reachable.' })
   pingAccounts(): Observable<PingResponse> {
     return this.accountService.pingAccounts();
+  }
+
+  @Get('accounts')
+  @ApiOperation({ summary: 'Fetch all accounts with a limit filter' })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Limit to numbers <= 9000',
+    example: 9000,
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'List of accounts matching the limit filter.',
+  })
+  getAccounts(
+    @Query('limit', new DefaultValuePipe(9000), ParseIntPipe) limit: number,
+  ): Observable<GetAccountsResponse> {
+    return this.accountService.getAccounts(limit);
   }
 }
