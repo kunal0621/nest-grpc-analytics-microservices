@@ -12,6 +12,7 @@ async function bootstrap() {
         package: 'customer.v1',
         protoPath: join(process.cwd(), 'proto/customers.proto'),
         url: process.env.CUSTOMERS_URL ?? '0.0.0.0:5002',
+        loader: { keepCase: true },
       },
     },
   );

@@ -1,7 +1,24 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Schema as MongooseSchema } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type CustomerDocument = HydratedDocument<Customer>;
+
+@Schema({ _id: false })
+class TierAndDetails {
+  @Prop({ trim: true })
+  tier: string;
+
+  @Prop({ trim: true })
+  benefits: string[];
+
+  @Prop({ trim: true })
+  active: boolean;
+
+  @Prop({ trim: true })
+  id: string;
+}
+
+const TierAndDetailsSchema = SchemaFactory.createForClass(TierAndDetails);
 
 @Schema({ collection: 'customers' })
 export class Customer {
@@ -23,8 +40,8 @@ export class Customer {
   @Prop({ type: [Number], default: [] })
   accounts: number[]; // list of account_id references
 
-  @Prop({ type: MongooseSchema.Types.Mixed, default: {} })
-  tier_and_details: Record<string, unknown>;
+  @Prop({ type: Map, of: TierAndDetailsSchema, default: {} })
+  tier_and_details: Record<string, TierAndDetails>;
 }
 
 export const CustomerSchema = SchemaFactory.createForClass(Customer);

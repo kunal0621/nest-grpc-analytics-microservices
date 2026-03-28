@@ -25,6 +25,7 @@ import {
           package: 'account.v1',
           protoPath: join(process.cwd(), 'proto/accounts.proto'),
           url: process.env.ACCOUNTS_URL ?? '0.0.0.0:5001',
+          loader: { keepCase: true },
         },
       },
       {
@@ -34,6 +35,7 @@ import {
           package: 'customer.v1',
           protoPath: join(process.cwd(), 'proto/customers.proto'),
           url: process.env.CUSTOMERS_URL ?? '0.0.0.0:5002',
+          loader: { keepCase: true },
         },
       },
       {
@@ -43,6 +45,7 @@ import {
           package: 'transaction.v1',
           protoPath: join(process.cwd(), 'proto/transactions.proto'),
           url: process.env.TRANSACTIONS_URL ?? '0.0.0.0:5003',
+          loader: { keepCase: true },
         },
       },
     ]),

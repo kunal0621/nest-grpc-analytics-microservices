@@ -4,10 +4,99 @@ package customer.v1;
 
 service CustomerService {
   rpc Ping (PingRequest) returns (PingResponse) {}
+  rpc GetCustomer (GetCustomerRequest) returns (GetCustomerResponse) {}
+  rpc CreateCustomer (CreateCustomerRequest) returns (CreateCustomerResponse) {}
+  rpc UpdateCustomer (UpdateCustomerRequest) returns (UpdateCustomerResponse) {}
+  rpc ListCustomers (ListCustomersRequest) returns (ListCustomersResponse) {}
+  rpc AddAccountToCustomer (AddAccountToCustomerRequest) returns (AddAccountToCustomerResponse) {}
+  rpc RemoveAccountFromCustomer (RemoveAccountFromCustomerRequest) returns (RemoveAccountFromCustomerResponse) {}
 }
 
 message PingRequest {}
 
 message PingResponse {
   string message = 1;
+}
+
+message GetCustomerRequest {
+  string username = 1;
+}
+
+message GetCustomerResponse {
+  string username = 1;
+  string name = 2;
+  string address = 3;
+  string birthdate = 4;
+  string email = 5;
+  repeated int32 accounts = 6;
+  map<string, TierAndDetails> tier_and_details = 7;
+}
+
+message TierAndDetails {
+  string tier = 1;
+  repeated string benefits = 2;
+  bool active = 3;
+  string id = 4;
+}
+
+message CreateCustomerRequest {
+  string username = 1;
+  string name = 2;
+  string address = 3;
+  string birthdate = 4;
+  string email = 5;
+}
+
+message CreateCustomerResponse {
+  string username = 1;
+  string name = 2;
+  string address = 3;
+  string birthdate = 4;
+  string email = 5;
+}
+
+message UpdateCustomerRequest {
+  string username = 1;
+  string name = 2;
+  string address = 3;
+  string birthdate = 4;
+  string email = 5;
+}
+
+message UpdateCustomerResponse {
+  string username = 1;
+  string name = 2;
+  string address = 3;
+  string birthdate = 4;
+  string email = 5;
+}
+
+message ListCustomersRequest {
+  int32 limit = 1;
+  string cursor = 2;
+}
+
+message ListCustomersResponse {
+  string next_cursor = 1;
+  repeated GetCustomerResponse customers = 2;
+}
+
+message AddAccountToCustomerRequest {
+  string username = 1;
+  int32 account_id = 2;
+}
+
+message AddAccountToCustomerResponse {
+  string username = 1;
+  int32 account_id = 2;
+}
+
+message RemoveAccountFromCustomerRequest {
+  string username = 1;
+  int32 account_id = 2;
+}
+
+message RemoveAccountFromCustomerResponse {
+  string username = 1;
+  int32 account_id = 2;
 }
