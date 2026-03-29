@@ -11,6 +11,7 @@ describe('CustomerController', () => {
   beforeEach(async () => {
     const mockCustomerService = {
       pingCustomers: jest.fn(),
+      getCustomerOverview: jest.fn(),
       getCustomer: jest.fn(),
       createCustomer: jest.fn(),
       updateCustomer: jest.fn(),
@@ -66,6 +67,52 @@ describe('CustomerController', () => {
 
       customerController.getCustomer(username).subscribe((result) => {
         expect(customerService.getCustomer).toHaveBeenCalledWith({ username });
+        expect(result).toEqual(mockResponse);
+        done();
+      });
+    });
+  });
+
+  describe('getCustomerOverview', () => {
+    it('should call customerService.getCustomerOverview and return the result', (done) => {
+      const username = 'john_doe';
+      const mockResponse = {
+        customer: {
+          username,
+          name: 'John Doe',
+          address: '123 Main St',
+          birthdate: '1990-01-01',
+          email: 'john@example.com',
+          accounts: [12345],
+          tier_and_details: {},
+        },
+        accounts: [
+          {
+            account_id: 12345,
+            limit: 10000,
+            products: ['InvestmentStock'],
+          },
+        ],
+        recentTransactionsByAccount: {
+          '12345': [
+            {
+              date: '2024-02-01T09:00:00.000Z',
+              amount: 50,
+              transaction_code: 'buy',
+              symbol: 'AAPL',
+              price: '100.00',
+              total: '5000.00',
+            },
+          ],
+        },
+      };
+      customerService.getCustomerOverview.mockReturnValue(of(mockResponse));
+
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      customerController.getCustomerOverview(username).subscribe((result) => {
+        expect(customerService.getCustomerOverview).toHaveBeenCalledWith(
+          username,
+        );
         expect(result).toEqual(mockResponse);
         done();
       });

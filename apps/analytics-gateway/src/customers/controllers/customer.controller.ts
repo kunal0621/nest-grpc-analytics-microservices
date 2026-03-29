@@ -24,6 +24,7 @@ import { CreateCustomerDto } from '../dto/create-customer.dto';
 import { UpdateCustomerDto } from '../dto/update-customer.dto';
 import { ListCustomersDto } from '../dto/list-customers.dto';
 import { AddAccountDto } from '../dto/add-account.dto';
+import { type CustomerOverviewResponse } from '../types/customer-overview.types';
 
 @ApiTags('Customers')
 @Controller()
@@ -35,6 +36,23 @@ export class CustomerController {
   @ApiResponse({ status: 200, description: 'Customers service is reachable.' })
   pingCustomers(): Observable<PingResponse> {
     return this.customerService.pingCustomers();
+  }
+
+  @Get('customers/:username/overview')
+  @ApiOperation({ summary: 'Get a customer overview for the frontend' })
+  @ApiResponse({
+    status: 200,
+    description:
+      'Customer profile, linked accounts, and recent transactions retrieved.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Customer or linked account not found.',
+  })
+  getCustomerOverview(
+    @Param('username') username: string,
+  ): Observable<CustomerOverviewResponse> {
+    return this.customerService.getCustomerOverview(username);
   }
 
   @Get('customers/:username')
