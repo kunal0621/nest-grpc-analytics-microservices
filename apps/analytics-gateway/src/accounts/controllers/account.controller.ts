@@ -1,15 +1,10 @@
-import {
-  Controller,
-  Get,
-  Query,
-  ParseIntPipe,
-  DefaultValuePipe,
-} from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { AccountService } from '../account.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
 import { PingResponse } from '../../health/constants/grpc-client.constants';
 import { GetAccountsResponse } from '../constants/grpc-client.constants';
+import { GetAccountsDto } from '../dto/get-accounts.dto';
 
 @ApiTags('Accounts')
 @Controller()
@@ -36,9 +31,7 @@ export class AccountController {
     status: 200,
     description: 'List of accounts matching the limit filter.',
   })
-  getAccounts(
-    @Query('limit', new DefaultValuePipe(9000), ParseIntPipe) limit: number,
-  ): Observable<GetAccountsResponse> {
-    return this.accountService.getAccounts(limit);
+  getAccounts(@Query() query: GetAccountsDto): Observable<GetAccountsResponse> {
+    return this.accountService.getAccounts(query.limit ?? 9000);
   }
 }

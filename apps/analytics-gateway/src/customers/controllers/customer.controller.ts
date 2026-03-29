@@ -15,13 +15,15 @@ import { PingResponse } from '../../health/constants/grpc-client.constants';
 import {
   GetCustomerResponse,
   RemoveAccountFromCustomerResponse,
-  type CreateCustomerRequest,
   CreateCustomerResponse,
-  type UpdateCustomerRequest,
   UpdateCustomerResponse,
   type ListCustomersResponse,
   type AddAccountToCustomerResponse,
 } from '../constants/grpc-client.constants';
+import { CreateCustomerDto } from '../dto/create-customer.dto';
+import { UpdateCustomerDto } from '../dto/update-customer.dto';
+import { ListCustomersDto } from '../dto/list-customers.dto';
+import { AddAccountDto } from '../dto/add-account.dto';
 
 @ApiTags('Customers')
 @Controller()
@@ -49,7 +51,7 @@ export class CustomerController {
   @ApiOperation({ summary: 'Create a customer' })
   @ApiResponse({ status: 201, description: 'Customer created.' })
   createCustomer(
-    @Body() data: CreateCustomerRequest,
+    @Body() data: CreateCustomerDto,
   ): Observable<CreateCustomerResponse> {
     return this.customerService.createCustomer(data);
   }
@@ -60,7 +62,7 @@ export class CustomerController {
   @ApiResponse({ status: 404, description: 'Customer not found.' })
   updateCustomer(
     @Param('username') username: string,
-    @Body() data: UpdateCustomerRequest,
+    @Body() data: UpdateCustomerDto,
   ): Observable<UpdateCustomerResponse> {
     return this.customerService.updateCustomer({ ...data, username });
   }
@@ -69,10 +71,12 @@ export class CustomerController {
   @ApiOperation({ summary: 'List customers' })
   @ApiResponse({ status: 200, description: 'List of customers.' })
   listCustomers(
-    @Query('limit') limit: number,
-    @Query('cursor') cursor?: string,
+    @Query() query: ListCustomersDto,
   ): Observable<ListCustomersResponse> {
-    return this.customerService.listCustomers({ limit, cursor });
+    return this.customerService.listCustomers({
+      limit: query.limit,
+      cursor: query.cursor,
+    });
   }
 
   @Post('customers/:username/accounts')
@@ -81,9 +85,12 @@ export class CustomerController {
   @ApiResponse({ status: 404, description: 'Customer not found.' })
   addAccountToCustomer(
     @Param('username') username: string,
-    @Body('account_id') account_id: number,
+    @Body() data: AddAccountDto,
   ): Observable<AddAccountToCustomerResponse> {
-    return this.customerService.addAccountToCustomer({ username, account_id });
+    return this.customerService.addAccountToCustomer({
+      username,
+      account_id: data.account_id,
+    });
   }
 
   @Delete('customers/:username/accounts/:account_id')
